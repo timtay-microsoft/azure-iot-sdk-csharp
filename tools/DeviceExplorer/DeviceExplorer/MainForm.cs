@@ -540,7 +540,7 @@ namespace DeviceExplorer
                     }
                 }
 
-                Func<bool> processor = new Func<bool>(()=>ProcessOutput(eventHubReceiver, selectedDevice, ct));
+                Func<bool> processor = new Func<bool>(() => ProcessOutput(eventHubReceiver, selectedDevice, ct));
                 await Task.Run(processor, ct);
 
             }
@@ -1190,5 +1190,12 @@ namespace DeviceExplorer
             return true;
         }
         #endregion
+
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            String deviceName = devicesGridView.Rows[devicesGridView.SelectedRows[0].Index].Cells[0].Value.ToString();
+            CLIForm createForm = new CLIForm(activeIoTHubConnectionString, deviceName);
+            createForm.ShowDialog();    // Modal window
+        }
     }
 }

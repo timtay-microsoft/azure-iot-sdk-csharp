@@ -50,6 +50,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="CLIForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CLIForm.Designer.cs">
+      <DependentUpon>CLIForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="CreateDeviceForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -94,6 +100,9 @@
       <DependentUpon>SASTokenForm.cs</DependentUpon>
     </Compile>
     <Compile Include="SortableBindingList.cs" />
+    <EmbeddedResource Include="CLIForm.resx">
+      <DependentUpon>CLIForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="CreateDeviceForm.resx">
       <DependentUpon>CreateDeviceForm.cs</DependentUpon>
     </EmbeddedResource>
