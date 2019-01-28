@@ -25,8 +25,9 @@ namespace Microsoft.Azure.Devices.Provisioning.Client.Transport.Models
             string registrationId = default(string), 
             DateTime? createdDateTimeUtc = default(DateTime?), 
             string assignedHub = default(string), 
-            string deviceId = default(string), 
-            string status = default(string), 
+            string deviceId = default(string),
+            string status = default(string),
+            string substatus = default(string),
             string generationId = default(string), 
             DateTime? lastUpdatedDateTimeUtc = default(DateTime?), 
             int? errorCode = default(int?), 
@@ -41,6 +42,7 @@ namespace Microsoft.Azure.Devices.Provisioning.Client.Transport.Models
             AssignedHub = assignedHub;
             DeviceId = deviceId;
             Status = status;
+            Substatus = substatus;
             GenerationId = generationId;
             LastUpdatedDateTimeUtc = lastUpdatedDateTimeUtc;
             ErrorCode = errorCode;
@@ -96,6 +98,12 @@ namespace Microsoft.Azure.Devices.Provisioning.Client.Transport.Models
         /// </summary>
         [JsonProperty(PropertyName = "status")]
         public string Status { get; set; }
+
+        /// <summary>
+        /// Possible values include: 'initialAssignment', 'deviceDataMigrated', 'deviceDataReset'
+        /// </summary>
+        [JsonProperty(PropertyName = "substatus")]
+        public string Substatus { get; set; }
 
         /// <summary>
         /// </summary>
