@@ -20,6 +20,7 @@ namespace Microsoft.Azure.Devices.Provisioning.Client
             string assignedHub,
             string deviceId,
             ProvisioningRegistrationStatusType status,
+            ProvisioningRegistrationSubstatusType substatus,
             string generationId,
             DateTime? lastUpdatedDateTimeUtc,
             int errorCode,
@@ -31,6 +32,7 @@ namespace Microsoft.Azure.Devices.Provisioning.Client
             AssignedHub = assignedHub;
             DeviceId = deviceId;
             Status = status;
+            Substatus = substatus;
             GenerationId = generationId;
             LastUpdatedDateTimeUtc = lastUpdatedDateTimeUtc;
             ErrorCode = errorCode;
@@ -62,6 +64,11 @@ namespace Microsoft.Azure.Devices.Provisioning.Client
         /// The status of the operation.
         /// </summary>
         public ProvisioningRegistrationStatusType Status { get; protected set; }
+
+        /// <summary>
+        /// The substatus of the operation.
+        /// </summary>
+        public ProvisioningRegistrationSubstatusType Substatus { get; protected set; }
 
         /// <summary>
         /// The generation ID.
