@@ -200,7 +200,20 @@ namespace Microsoft.Azure.Devices.Provisioning.Client.Transport
                     break;
                 case State.WaitForStatus:
                     await VerifyExpectedPacketType(context, PacketType.PUBLISH, message).ConfigureAwait(true);
-                    await ProcessRegistrationStatusAsync(context, (PublishPacket)message).ConfigureAwait(true);
+                    try
+                    {
+                        await ProcessRegistrationStatusAsync(context, (PublishPacket)message).ConfigureAwait(true);
+                    }
+                    catch (ProvisioningTransportException ex) when (ex.IsTransient)
+                    {
+                        string errorMessage = ex.ErrorDetails != null ? ex.ErrorDetails.CreateMessage(ex.Message) : ex.Message;
+
+                        if (Logging.IsEnabled) Logging.Error(this,
+                        $"{nameof(ProvisioningChannelHandlerAdapter)} " +
+                        $"Server returned transient error." +
+                        $"Polling will continue until a final state is reached. Error details: {errorMessage}",
+                        nameof(ProcessMessageAsync));
+                    }
                     break;
                 default:
                     await FailWithExceptionAsync(
@@ -309,7 +322,25 @@ namespace Microsoft.Azure.Devices.Provisioning.Client.Transport
             {
                 if (Enum.TryParse(match.Groups[1].Value, out HttpStatusCode statusCode))
                 {
-                    if (statusCode >= HttpStatusCode.BadRequest)
+                    if (statusCode == HttpStatusCode.BadRequest)
+                    {
+                        await FailWithExceptionAsync(
+                         context,
+                         new ProvisioningTransportException(
+                             jsonData,
+                             null,
+                             false)).ConfigureAwait(false);
+                    }
+                    else if ((int)statusCode == 429)
+                    {
+                        await FailWithExceptionAsync(
+                         context,
+                         new ProvisioningTransportException(
+                             jsonData,
+                             null,
+                             true)).ConfigureAwait(false);
+                    }
+                    else if (statusCode > HttpStatusCode.BadRequest)
                     {
                         var errorDetails = JsonConvert.DeserializeObject<ProvisioningErrorDetails>(jsonData);
 

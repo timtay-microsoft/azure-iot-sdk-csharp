@@ -159,6 +159,13 @@ namespace Microsoft.Azure.Devices.Provisioning.Client.Transport
             HttpStatusCode _statusCode = _httpResponse.StatusCode;
             cancellationToken.ThrowIfCancellationRequested();
             string _responseContent = null;
+
+            if ((int)_statusCode == 429 || (int)_statusCode >= 500)
+            {
+                var ex = new ProvisioningTransportException("Received status code " + _statusCode, null, true);
+                throw ex;
+            }
+
             if ((int)_statusCode != 200 && (int)_statusCode != 202)
             {
                 var ex = new HttpOperationException(string.Format(CultureInfo.InvariantCulture, "Operation returned an invalid status code '{0}'", _statusCode));
