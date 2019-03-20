@@ -264,6 +264,84 @@ namespace Microsoft.Azure.Devices.E2ETests
         }
 
         [TestMethod]
+        public async Task ProvisioningDeviceClient_ValidRegistrationId_Http_Tpm_RegisterOk_EdgeEnabled_IndividualEnrollment()
+        {
+            await ProvisioningDeviceClient_ValidRegistrationId_Register_Ok(Client.TransportType.Http1, AttestationType.Tpm, EnrollmentType.Individual, false, new DeviceCapabilities() { IotEdge = true }).ConfigureAwait(false);
+        }
+
+        [TestMethod]
+        public async Task ProvisioningDeviceClient_ValidRegistrationId_Amqp_Tpm_RegisterOk_EdgeEnabled_IndividualEnrollment()
+        {
+            await ProvisioningDeviceClient_ValidRegistrationId_Register_Ok(Client.TransportType.Amqp_Tcp_Only, AttestationType.Tpm, EnrollmentType.Individual, false, new DeviceCapabilities() { IotEdge = true }).ConfigureAwait(false);
+        }
+
+        [TestMethod]
+        public async Task ProvisioningDeviceClient_ValidRegistrationId_AmqpWs_Tpm_RegisterOk_EdgeEnabled_IndividualEnrollment()
+        {
+            await ProvisioningDeviceClient_ValidRegistrationId_Register_Ok(Client.TransportType.Amqp_WebSocket_Only, AttestationType.Tpm, EnrollmentType.Individual, false, new DeviceCapabilities() { IotEdge = true }).ConfigureAwait(false);
+        }
+
+        [TestMethod]
+        public async Task ProvisioningDeviceClient_ValidRegistrationId_Http_SymmetricKey_RegisterOk_EdgeEnabled_IndividualEnrollment()
+        {
+            await ProvisioningDeviceClient_ValidRegistrationId_Register_Ok(Client.TransportType.Http1, AttestationType.SymmetricKey, EnrollmentType.Individual, false, new DeviceCapabilities() { IotEdge = true }).ConfigureAwait(false);
+        }
+
+        [TestMethod]
+        public async Task ProvisioningDeviceClient_ValidRegistrationId_Http_SymmetricKey_RegisterOk_EdgeEnabled_GroupEnrollment()
+        {
+            await ProvisioningDeviceClient_ValidRegistrationId_Register_Ok(Client.TransportType.Http1, AttestationType.SymmetricKey, EnrollmentType.Group, false, new DeviceCapabilities() { IotEdge = true }).ConfigureAwait(false);
+        }
+
+        [TestMethod]
+        public async Task ProvisioningDeviceClient_ValidRegistrationId_Amqp_SymmetricKey_RegisterOk_EdgeEnabled_GroupEnrollment()
+        {
+            await ProvisioningDeviceClient_ValidRegistrationId_Register_Ok(Client.TransportType.Amqp, AttestationType.SymmetricKey, EnrollmentType.Group, false, new DeviceCapabilities() { IotEdge = true }).ConfigureAwait(false);
+        }
+
+        [TestMethod]
+        public async Task ProvisioningDeviceClient_ValidRegistrationId_Mqtt_SymmetricKey_RegisterOk_EdgeEnabled_GroupEnrollment()
+        {
+            await ProvisioningDeviceClient_ValidRegistrationId_Register_Ok(Client.TransportType.Mqtt, AttestationType.SymmetricKey, EnrollmentType.Group, false, new DeviceCapabilities() { IotEdge = true }).ConfigureAwait(false);
+        }
+
+        [TestMethod]
+        public async Task ProvisioningDeviceClient_ValidRegistrationId_AmqpWs_SymmetricKey_RegisterOk_EdgeEnabled_GroupEnrollment()
+        {
+            await ProvisioningDeviceClient_ValidRegistrationId_Register_Ok(Client.TransportType.Amqp_WebSocket_Only, AttestationType.SymmetricKey, EnrollmentType.Group, false, new DeviceCapabilities() { IotEdge = true }).ConfigureAwait(false);
+        }
+
+        [TestMethod]
+        public async Task ProvisioningDeviceClient_ValidRegistrationId_MqttWs_SymmetricKey_RegisterOk_EdgeEnabled_GroupEnrollment()
+        {
+            await ProvisioningDeviceClient_ValidRegistrationId_Register_Ok(Client.TransportType.Mqtt_WebSocket_Only, AttestationType.SymmetricKey, EnrollmentType.Group, false, new DeviceCapabilities() { IotEdge = true }).ConfigureAwait(false);
+        }
+                
+        [TestMethod]
+        public async Task ProvisioningDeviceClient_ValidRegistrationId_Amqp_SymmetricKey_RegisterOk_EdgeEnabled_IndividualEnrollment()
+        {
+            await ProvisioningDeviceClient_ValidRegistrationId_Register_Ok(Client.TransportType.Amqp, AttestationType.SymmetricKey, EnrollmentType.Individual, false, new DeviceCapabilities() { IotEdge = true }).ConfigureAwait(false);
+        }
+
+        [TestMethod]
+        public async Task ProvisioningDeviceClient_ValidRegistrationId_AmqpWs_SymmetricKey_RegisterOk_EdgeEnabled_IndividualEnrollment()
+        {
+            await ProvisioningDeviceClient_ValidRegistrationId_Register_Ok(Client.TransportType.Amqp, AttestationType.SymmetricKey, EnrollmentType.Individual, false, new DeviceCapabilities() { IotEdge = true }).ConfigureAwait(false);
+        }
+
+        [TestMethod]
+        public async Task ProvisioningDeviceClient_ValidRegistrationId_Mqtt_SymmetricKey_RegisterOk_EdgeEnabled_IndividualEnrollment()
+        {
+            await ProvisioningDeviceClient_ValidRegistrationId_Register_Ok(Client.TransportType.Mqtt, AttestationType.SymmetricKey, EnrollmentType.Individual, false, new DeviceCapabilities() { IotEdge = true }).ConfigureAwait(false);
+        }
+
+        [TestMethod]
+        public async Task ProvisioningDeviceClient_ValidRegistrationId_MqttWs_SymmetricKey_RegisterOk_EdgeEnabled_IndividualEnrollment()
+        {
+            await ProvisioningDeviceClient_ValidRegistrationId_Register_Ok(Client.TransportType.Mqtt, AttestationType.SymmetricKey, EnrollmentType.Individual, false, new DeviceCapabilities() { IotEdge = true }).ConfigureAwait(false);
+        }
+
+        [TestMethod]
         public async Task ProvisioningDeviceClient_ReprovisionedDeviceResetsTwin_MqttWs_SymmetricKey_RegisterOk_Individual()
         {
             await ProvisioningDeviceClient_ReprovisioningFlow_ResetTwin(Client.TransportType.Mqtt_WebSocket_Only, AttestationType.SymmetricKey, EnrollmentType.Individual, false).ConfigureAwait(false);
@@ -600,7 +678,20 @@ namespace Microsoft.Azure.Devices.E2ETests
             string proxyServerAddress = null)
         {
             //Default reprovisioning settings: Hashed allocation, no reprovision policy, hub names, or custom allocation policy
-            await ProvisioningDeviceClient_ValidRegistrationId_Register_Ok(transportType, attestationType, enrollmentType, setCustomProxy, null, AllocationPolicy.Hashed, null, null, ProxyServerAddress).ConfigureAwait(false);
+            await ProvisioningDeviceClient_ValidRegistrationId_Register_Ok(transportType, attestationType, enrollmentType, setCustomProxy, null, AllocationPolicy.Hashed, null, null, null, ProxyServerAddress).ConfigureAwait(false);
+        }
+
+        public async Task ProvisioningDeviceClient_ValidRegistrationId_Register_Ok(
+            Client.TransportType transportType,
+            AttestationType attestationType,
+            EnrollmentType? enrollmentType,
+            bool setCustomProxy,
+            DeviceCapabilities capabilities,
+            string proxyServerAddress = null)
+        {
+            //Default reprovisioning settings: Hashed allocation, no reprovision policy, hub names, or custom allocation policy
+            List<String> iothubs = new List<string>() { IotHubConnectionStringBuilder.Create(Configuration.IoTHub.ConnectionString).HostName };
+            await ProvisioningDeviceClient_ValidRegistrationId_Register_Ok(transportType, attestationType, enrollmentType, setCustomProxy, null, AllocationPolicy.Hashed, null, iothubs, capabilities, ProxyServerAddress).ConfigureAwait(false);
         }
 
         public async Task ProvisioningDeviceClient_ValidRegistrationId_Register_Ok(
@@ -612,11 +703,12 @@ namespace Microsoft.Azure.Devices.E2ETests
             AllocationPolicy allocationPolicy,
             CustomAllocationDefinition customAllocationDefinition,
             ICollection<string> iothubs,
+            DeviceCapabilities deviceCapabilities,
             string proxyServerAddress = null)
         {
             string groupId = IdPrefix + AttestationTypeToString(attestationType) + "-" + Guid.NewGuid();
             using (ProvisioningTransportHandler transport = CreateTransportHandlerFromName(transportType))
-            using (SecurityProvider security = await CreateSecurityProviderFromName(attestationType, enrollmentType, groupId, reprovisionPolicy, allocationPolicy, customAllocationDefinition, iothubs).ConfigureAwait(false))
+            using (SecurityProvider security = await CreateSecurityProviderFromName(attestationType, enrollmentType, groupId, reprovisionPolicy, allocationPolicy, customAllocationDefinition, iothubs, deviceCapabilities).ConfigureAwait(false))
             {
 
                 _verboseLog.WriteLine("Creating device");
@@ -642,6 +734,7 @@ namespace Microsoft.Azure.Devices.E2ETests
                 Client.IAuthenticationMethod auth = CreateAuthenticationMethodFromSecurityProvider(security, result.DeviceId);
 
                 await ConfirmRegisteredDeviceWorks(result, auth, transportType, false).ConfigureAwait(false);
+                await ConfirmExpectedDeviceCapabilities(result, deviceCapabilities).ConfigureAwait(false);
 
                 if (attestationType != AttestationType.x509) //x509 enrollments are hardcoded, should never be deleted
                 {
@@ -1012,7 +1105,22 @@ namespace Microsoft.Azure.Devices.E2ETests
             }
         }
 
-        private async Task<SecurityProvider> CreateSecurityProviderFromName(AttestationType attestationType, EnrollmentType? enrollmentType, string groupId, ReprovisionPolicy reprovisionPolicy, AllocationPolicy allocationPolicy, CustomAllocationDefinition customAllocationDefinition, ICollection<string> iothubs)
+        private async Task ConfirmExpectedDeviceCapabilities(DeviceRegistrationResult result, DeviceCapabilities capabilities)
+        {
+            if (capabilities != null)
+            {
+                RegistryManager registryManager = RegistryManager.CreateFromConnectionString(Configuration.IoTHub.ConnectionString);
+                IQuery provisionedDevice = registryManager.CreateQuery("SELECT * FROM devices WHERE deviceId = '" + result.DeviceId + "'");
+                Assert.IsTrue(provisionedDevice.HasMoreResults);
+                IEnumerable<Twin> twinCollection = await provisionedDevice.GetNextAsTwinAsync().ConfigureAwait(false);
+                foreach (Twin twin in twinCollection)
+                {
+                    Assert.AreEqual(capabilities.IotEdge, twin.Capabilities.IotEdge);
+                }
+            }
+        }
+        
+        private async Task<SecurityProvider> CreateSecurityProviderFromName(AttestationType attestationType, EnrollmentType? enrollmentType, string groupId, ReprovisionPolicy reprovisionPolicy, AllocationPolicy allocationPolicy, CustomAllocationDefinition customAllocationDefinition, ICollection<string> iothubs, DeviceCapabilities capabilities = null)
         {
             _verboseLog.WriteLine($"{nameof(CreateSecurityProviderFromName)}({attestationType})");
 
@@ -1030,7 +1138,7 @@ namespace Microsoft.Azure.Devices.E2ETests
                     var provisioningService = ProvisioningServiceClient.CreateFromConnectionString(Configuration.Provisioning.ConnectionString);
 
                     _log.WriteLine($"Getting enrollment: RegistrationID = {registrationId}");
-                    IndividualEnrollment individualEnrollment = new IndividualEnrollment(registrationId, new TpmAttestation(base64Ek)) { AllocationPolicy = allocationPolicy, ReprovisionPolicy = reprovisionPolicy, IotHubs = iothubs, CustomAllocationDefinition = customAllocationDefinition };
+                    IndividualEnrollment individualEnrollment = new IndividualEnrollment(registrationId, new TpmAttestation(base64Ek)) { AllocationPolicy = allocationPolicy, ReprovisionPolicy = reprovisionPolicy, IotHubs = iothubs, CustomAllocationDefinition = customAllocationDefinition, Capabilities = capabilities };
                     IndividualEnrollment enrollment = await provisioningService.CreateOrUpdateIndividualEnrollmentAsync(individualEnrollment).ConfigureAwait(false);
                     var attestation = new TpmAttestation(base64Ek);
                     enrollment.Attestation = attestation;
@@ -1062,7 +1170,7 @@ namespace Microsoft.Azure.Devices.E2ETests
                     switch (enrollmentType)
                     {
                         case EnrollmentType.Group:
-                            EnrollmentGroup symmetricKeyEnrollmentGroup = await CreateEnrollmentGroup(provisioningServiceClient, AttestationType.SymmetricKey, groupId, reprovisionPolicy, allocationPolicy, customAllocationDefinition, iothubs).ConfigureAwait(false);
+                            EnrollmentGroup symmetricKeyEnrollmentGroup = await CreateEnrollmentGroup(provisioningServiceClient, AttestationType.SymmetricKey, groupId, reprovisionPolicy, allocationPolicy, customAllocationDefinition, iothubs, capabilities).ConfigureAwait(false);
                             Assert.IsTrue(symmetricKeyEnrollmentGroup.Attestation is SymmetricKeyAttestation);
                             SymmetricKeyAttestation symmetricKeyAttestation = (SymmetricKeyAttestation)symmetricKeyEnrollmentGroup.Attestation;
                             string registrationIdSymmetricKey = IdPrefix + Guid.NewGuid();
@@ -1074,7 +1182,7 @@ namespace Microsoft.Azure.Devices.E2ETests
 
                             return new SecurityProviderSymmetricKey(registrationIdSymmetricKey, primaryKeyIndividual, secondaryKeyIndividual);
                         case EnrollmentType.Individual:
-                            IndividualEnrollment symmetricKeyEnrollment = await CreateIndividualEnrollment(provisioningServiceClient, AttestationType.SymmetricKey, reprovisionPolicy, allocationPolicy, customAllocationDefinition, iothubs).ConfigureAwait(false);
+                            IndividualEnrollment symmetricKeyEnrollment = await CreateIndividualEnrollment(provisioningServiceClient, AttestationType.SymmetricKey, reprovisionPolicy, allocationPolicy, customAllocationDefinition, iothubs, capabilities).ConfigureAwait(false);
 
                             Assert.IsTrue(symmetricKeyEnrollment.Attestation is SymmetricKeyAttestation);
                             symmetricKeyAttestation = (SymmetricKeyAttestation)symmetricKeyEnrollment.Attestation;
