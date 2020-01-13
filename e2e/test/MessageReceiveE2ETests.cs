@@ -202,12 +202,14 @@ namespace Microsoft.Azure.Devices.E2ETests
         }
 
         [TestMethod]
+        [Ignore] //Flaky test, needs validation
         public async Task Message_DeviceReceiveMessageOperationTimeout_Amqp()
         {
             await ReceiveMessageInOperationTimeout(TestDeviceType.Sasl, Client.TransportType.Amqp_Tcp_Only).ConfigureAwait(false);
         }
 
         [TestMethod]
+        [Ignore] //Flaky test, needs validation
         public async Task Message_DeviceReceiveMessageOperationTimeout_AmqpWs()
         {
             await ReceiveMessageInOperationTimeout(TestDeviceType.Sasl, Client.TransportType.Amqp_WebSocket_Only).ConfigureAwait(false);

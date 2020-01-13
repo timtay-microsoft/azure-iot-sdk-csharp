@@ -25,6 +25,7 @@ namespace Microsoft.Azure.Devices.E2ETests
         }
 
         [TestMethod]
+        [Ignore] //Flaky test, needs validation
         [ExpectedException(typeof(TimeoutException))]
         public async Task Message_TimeOutReachedResponse()
         {
