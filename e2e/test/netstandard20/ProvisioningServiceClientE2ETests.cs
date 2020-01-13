@@ -109,6 +109,31 @@ namespace Microsoft.Azure.Devices.E2ETests
             await ProvisioningServiceClient_IndividualEnrollments_Create_Ok("", AttestationType.SymmetricKey, reprovisionPolicy, allocationPolicy, customAllocationDefinition, null).ConfigureAwait(false);
         }
 
+        [TestMethod]
+        public async Task ProvisioningServiceClient_SymmetricKey_IndividualEnrollment_GetAttestationMechanism()
+        {
+            ProvisioningServiceClient client = ProvisioningServiceClient.CreateFromConnectionString(Configuration.Provisioning.ConnectionString);
+            IndividualEnrollment enrollment = await CreateIndividualEnrollment(client, AttestationType.SymmetricKey, null, AllocationPolicy.Hashed, null, null, null);
+
+            AttestationMechanism attestationMechanism = client.GetIndividualEnrollmentAttestationMechanismAsync(enrollment.RegistrationId);
+            Assert.AreEqual(AttestationMechanismType.SymmetricKey, attestationMechanism.Type);
+            Assert.AreEqual(((SymmetricKeyAttestation)enrollment.Attestation).PrimaryKey, attestationMechanism.PrimaryKey);
+            Assert.AreEqual(((SymmetricKeyAttestation)enrollment.Attestation).SecondaryKey, attestationMechanism.SecondaryKey);
+        }
+
+        [TestMethod]
+        public async Task ProvisioningServiceClient_SymmetricKey_GroupEnrollment_GetAttestationMechanism()
+        {
+            ProvisioningServiceClient client = ProvisioningServiceClient.CreateFromConnectionString(Configuration.Provisioning.ConnectionString);
+            string groupId = "ProvisioningServiceClientE2ETests-" + Guid.NewGuid().ToString();
+            EnrollmentGroup enrollment = await CreateEnrollmentGroup(client, AttestationType.SymmetricKey, groupId, null, AllocationPolicy.Hashed, null, null, null);
+
+            AttestationMechanism attestationMechanism = client.GetEnrollmentGroupAttestationMechanismAsync(enrollment.EnrollmentGroupId);
+            Assert.AreEqual(AttestationMechanismType.SymmetricKey, attestationMechanism.Type);
+            Assert.AreEqual(((SymmetricKeyAttestation)enrollment.Attestation).PrimaryKey, attestationMechanism.PrimaryKey);
+            Assert.AreEqual(((SymmetricKeyAttestation)enrollment.Attestation).SecondaryKey, attestationMechanism.SecondaryKey);
+        }
+
         /// <summary>
         /// Attempts to query all enrollments using a provisioning service client instance
         /// </summary>

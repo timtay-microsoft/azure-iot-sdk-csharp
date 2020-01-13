@@ -16,7 +16,7 @@ namespace Microsoft.Azure.Devices.Provisioning.Service
     /// It is an internal class that converts one of the attestations into JSON format. To configure
     ///     the attestation mechanism, see the external API <see cref="Attestation"/>.
     /// </remarks>
-    internal sealed class AttestationMechanism
+    public sealed class AttestationMechanism
     {
         /// <summary>
         /// CONSTRUCTOR
@@ -160,7 +160,7 @@ namespace Microsoft.Azure.Devices.Provisioning.Service
         /// Gets or sets the <see cref="TpmAttestation"/> used for attestation.
         /// </summary>
         [JsonProperty(PropertyName = "tpm", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        private TpmAttestation Tpm
+        public TpmAttestation Tpm
         {
             get
             {
@@ -186,7 +186,7 @@ namespace Microsoft.Azure.Devices.Provisioning.Service
         /// Gets or sets the <see cref="X509Attestation"/> used for attestation.
         /// </summary>
         [JsonProperty(PropertyName = "x509", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        private X509Attestation X509
+        public X509Attestation X509
         {
             get
             {
@@ -209,7 +209,7 @@ namespace Microsoft.Azure.Devices.Provisioning.Service
         private X509Attestation _x509;
 
         [JsonProperty(PropertyName = "symmetricKey", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        private SymmetricKeyAttestation SymmetricKey
+        public SymmetricKeyAttestation SymmetricKey
         {
             get
             {

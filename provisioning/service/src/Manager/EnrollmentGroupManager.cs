@@ -15,7 +15,9 @@ namespace Microsoft.Azure.Devices.Provisioning.Service
     internal static class EnrollmentGroupManager
     {
         private const string ServiceName = "enrollmentGroups";
+        private const string AttestationMechanism = "attestationmechanism";
         private const string EnrollmentIdUriFormat = "{0}/{1}?{2}";
+        private const string EnrollmentAttestationMechanismIdUriFormat = "{0}/{1}/{2}?{3}";
 
         internal static async Task<EnrollmentGroup> CreateOrUpdateAsync(
             IContractApiHttp contractApiHttp,
@@ -67,6 +69,27 @@ namespace Microsoft.Azure.Devices.Provisioning.Service
 
             /* SRS_ENROLLMENT_GROUP_MANAGER_28_009: [The GetAsync shall return an EnrollmentGroup object created from the body of the HTTP response.] */
             return JsonConvert.DeserializeObject<EnrollmentGroup>(contractApiResponse.Body);
+        }
+
+        internal static async Task<AttestationMechanism> GetAttestationMechanismAsync(
+            IContractApiHttp contractApiHttp,
+            string enrollmentGroupId,
+            CancellationToken cancellationToken)
+        {
+            ContractApiResponse contractApiResponse = await contractApiHttp.RequestAsync(
+                HttpMethod.Post,
+                GetEnrollmentUri(enrollmentGroupId),
+                null,
+                null,
+                null,
+                cancellationToken).ConfigureAwait(false);
+
+            if (contractApiResponse.Body == null)
+            {
+                throw new ProvisioningServiceClientHttpException(contractApiResponse, true);
+            }
+
+            return JsonConvert.DeserializeObject<AttestationMechanism>(contractApiResponse.Body);
         }
 
         internal static async Task DeleteAsync(
@@ -133,6 +156,12 @@ namespace Microsoft.Azure.Devices.Provisioning.Service
         {
             enrollmentGroupId = WebUtility.UrlEncode(enrollmentGroupId);
             return new Uri(EnrollmentIdUriFormat.FormatInvariant(ServiceName, enrollmentGroupId, SDKUtils.ApiVersionQueryString), UriKind.Relative);
+        }
+
+        private static Uri GetEnrollmentAttestationMechanismUri(string registrationId)
+        {
+            registrationId = WebUtility.UrlEncode(registrationId);
+            return new Uri(EnrollmentAttestationMechanismIdUriFormat.FormatInvariant(ServiceName, registrationId, AttestationMechanism, SDKUtils.ApiVersionQueryString), UriKind.Relative);
         }
     }
 }

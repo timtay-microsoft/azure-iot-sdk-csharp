@@ -323,6 +323,16 @@ namespace Microsoft.Azure.Devices.Provisioning.Service
             return IndividualEnrollmentManager.GetAsync(_contractApiHttp, registrationId, CancellationToken.None);
         }
 
+        public Task<AttestationMechanism> GetIndividualEnrollmentAttestationMechanismAsync(string registrationId)
+        {
+            return GetIndividualEnrollmentAttestationMechanismAsync(registrationId, CancellationToken.None);
+        }
+
+        public Task<AttestationMechanism> GetIndividualEnrollmentAttestationMechanismAsync(string registrationId, CancellationToken cancellationToken)
+        {
+            return IndividualEnrollmentManager.GetAttestationMechanismAsync(_contractApiHttp, registrationId, cancellationToken);
+        }
+
         /// <summary>
         /// Gets the individual enrollment object.
         /// </summary>
@@ -705,6 +715,17 @@ namespace Microsoft.Azure.Devices.Provisioning.Service
             /* SRS_PROVISIONING_SERVICE_CLIENT_21_017: [The getEnrollmentGroup shall retrieve the enrollmentGroup information for the provided enrollmentGroupId by calling the get in the EnrollmentGroupManager.] */
             return EnrollmentGroupManager.GetAsync(_contractApiHttp, enrollmentGroupId, cancellationToken);
         }
+
+        public Task<AttestationMechanism> GetEnrollmentGroupAttestationMechanismAsync(string enrollmentGroupId)
+        {
+            return GetEnrollmentGroupAttestationMechanismAsync(enrollmentGroupId, CancellationToken.None);
+        }
+
+        public Task<AttestationMechanism> GetEnrollmentGroupAttestationMechanismAsync(string enrollmentGroupId, CancellationToken cancellationToken)
+        {
+            return EnrollmentGroupManager.GetAttestationMechanismAsync(contractApiHttp:, enrollmentGroupId, cancellationToken);
+        }
+
 
         /// <summary>
         /// Delete the enrollmentGroup information.
